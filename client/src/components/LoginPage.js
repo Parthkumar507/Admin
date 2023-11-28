@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../style/Login_page.css'
 
 
 const Loginpage = () => {
@@ -47,7 +48,7 @@ const Loginpage = () => {
     }
 
   return (
-    <div>
+    <div className="container">
     <h1>
     Login Page
     </h1>
@@ -73,7 +74,7 @@ const Loginpage = () => {
         </button>
 
         <p>
-          Not registered yet? <Link to ='/registration'>Register Here</Link>
+          Not registered yet? <Link to ='/Register'>Register Here</Link>
         </p>
 
     </form>
