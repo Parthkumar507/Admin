@@ -1,85 +1,85 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import '../style/Login_page.css'
-
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../style/Login_page.css";
 
 const Loginpage = () => {
+  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const [loginData,setLoginData]= useState({
-        email:'',
-        password:''
+  const handleloginSubmit = async (e) => {
+    e.preventDefault();
+    console.log("1")
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/login",
+        loginData
+      );
+      console.log("2");
+    //   console.log("response",response.status)
+      const { message } = response.data;
+      const { status } = response;
+
+        // console.log(success)
+      if (status==200) {
+        navigate("/");
+      } else {
+        console.log(message);
+      }
+    } catch (error) {
+      console.error("Login error", error);
+
+      // You can log the specific error response from the server
+      if (error.response) {
+        console.error("Server error response:", error.response.data);
+      }
+    }
+    setLoginData({
+      email: "",
+      password: "",
     });
+  };
 
-
-    const handleloginSubmit=async(e)=>{
-        e.preventDefault();
-        try{
-            const response = await axios.post('http://localhost:8000/login',loginData);
-            console.log(response.data)
-            const {success,message} = response.data;
-
-            if(success){
-                console.log('Login Successfully')
-              }
-              else{
-                console.log(message);
-              }
-            
-        }
-        catch(error){
-            console.error('Login error',error)
-        }
-        setLoginData({
-            email:'',
-            password:''
-        })
-    }
-
-    const handleloginChange=(e)=>{
-        // console.log(e)
-        const{name,value}=e.target;
-        setLoginData((prevData)=>({
-            ...prevData,
-            [name]:value
-
-        }))
-
-    }
+  const handleloginChange = (e) => {
+    // console.log(e)
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   return (
     <div className="container">
-    <h1>
-    Login Page
-    </h1>
-    <form onSubmit={handleloginSubmit}>
+      <h1>Login Page</h1>
+      <form onSubmit={handleloginSubmit}>
         <input
-            type='text'
-            name='email'
-            placeholder='Enter your Email .....'
-            value={loginData.email}
-            onChange={handleloginChange}
-            required
+          type="text"
+          name="email"
+          placeholder="Enter your Email ....."
+          value={loginData.email}
+          onChange={handleloginChange}
+          required
         />
         <input
-            type='password'
-            name='password'
-            placeholder='Enter your password .....'
-            value={loginData.password}
-            onChange={handleloginChange}
-            required
+          type="password"
+          name="password"
+          placeholder="Enter your password ....."
+          value={loginData.password}
+          onChange={handleloginChange}
+          required
         />
-        <button type="submit">
-            Login
-        </button>
+        <button type="submit">Login</button>
 
-        <p>
+        {/* <p>
           Not registered yet? <Link to ='/Register'>Register Here</Link>
-        </p>
-
-    </form>
+        </p> */}
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Loginpage
+export default Loginpage;
