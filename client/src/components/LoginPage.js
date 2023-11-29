@@ -12,27 +12,28 @@ const Loginpage = () => {
 
   const handleloginSubmit = async (e) => {
     e.preventDefault();
-    console.log("1")
     try {
       const response = await axios.post(
         "http://localhost:8000/login",
-        loginData
+        loginData,{
+          withCredentials: true,
+        }
       );
-      console.log("2");
-    //   console.log("response",response.status)
+
       const { message } = response.data;
       const { status } = response;
 
-        // console.log(success)
-      if (status==200) {
+      // console.log(success)
+      if (status === 200) {
         navigate("/");
       } else {
         console.log(message);
+        window.alert("Invalid Credentials")
       }
     } catch (error) {
       console.error("Login error", error);
 
-      // You can log the specific error response from the server
+      // Log the specific error response from the server
       if (error.response) {
         console.error("Server error response:", error.response.data);
       }
@@ -55,7 +56,7 @@ const Loginpage = () => {
   return (
     <div className="container">
       <h1>Login Page</h1>
-      <form onSubmit={handleloginSubmit}>
+      <form method="POST" onSubmit={handleloginSubmit}>
         <input
           type="text"
           name="email"
