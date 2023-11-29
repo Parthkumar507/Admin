@@ -7,6 +7,8 @@ const connectDB = require("./model/permission.js");
 const User = require("./model/user.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+//Used for session cookie + authentication
+const session =require('express-session')
 
 /* CONFIGURATION */
 dotenv.config();
@@ -14,7 +16,10 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',  // Replace with your frontend's URL
+  credentials: true,
+}));
 
 //Middleware for parsing Json
 app.use(express.json());
@@ -41,15 +46,20 @@ app.post("/login", async (req, res) => {
     if (!userInDB) {
       return res.status(401).json({ error: "Incorrect email or password" });
     }
-    // const token=await userInDB.getAuthenticateToken();
-    // console.log(token);
-
     const passwordCheck = await bcrypt.compare(password, userInDB.password);
 
     if (passwordCheck) {
       console.log("Authentication successful");
       const token=await userInDB.getAuthenticateToken();
       console.log(token);
+
+      res.cookie("tokenCookie",token,{
+        expires:new Date(Date.now()+2500000000),
+        httpOnly:true,
+        sameSite: 'None', 
+
+      })  
+
       return res.status(200).json({ message: "Login successful" });
     } else {
       console.log("Authentication failed");

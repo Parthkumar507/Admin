@@ -80,6 +80,7 @@ UserSchema.methods.getAuthenticateToken=async function(){
   }
   catch(err){
     console.log("Here is a Error ",err);
+    throw err; // Rethrow the error to be caught by the calling code
   }
 }
 
