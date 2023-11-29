@@ -1,5 +1,6 @@
 const mongoose=require('mongoose')
 const bcrypt=require('bcryptjs')
+const jwt=require('jsonwebtoken')
 
 
 // Define the email validation function
@@ -36,7 +37,15 @@ const UserSchema= mongoose.Schema({
     role:{
         type:String,
         require:true,
-    }
+    },
+    tokens:[
+      {
+        token:{
+          type:String,
+          require:true,
+        }
+      }
+    ]
 });
 
 UserSchema.pre('save', function (next) {
@@ -59,6 +68,20 @@ UserSchema.pre('save', function (next) {
       });
   });
 });
+
+//Function to generate the JWT token
+UserSchema.methods.getAuthenticateToken=async function(){
+  try{
+    // jwt.sign(payload, secretOrPrivateKey, [options, callback])
+    let tokenNew=jwt.sign({_id:this._id},process.env.secretOrPrivateKey)
+    this.tokens=this.tokens.concat({token:tokenNew});
+    await this.save();
+    return tokenNew;
+  }
+  catch(err){
+    console.log("Here is a Error ",err);
+  }
+}
 
 
 const User=mongoose.model('User',UserSchema);

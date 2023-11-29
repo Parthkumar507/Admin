@@ -5,7 +5,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./model/permission.js");
 const User = require("./model/user.js");
-const bcrypt=require('bcryptjs')
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 /* CONFIGURATION */
 dotenv.config();
@@ -40,23 +41,25 @@ app.post("/login", async (req, res) => {
     if (!userInDB) {
       return res.status(401).json({ error: "Incorrect email or password" });
     }
+    // const token=await userInDB.getAuthenticateToken();
+    // console.log(token);
 
     const passwordCheck = await bcrypt.compare(password, userInDB.password);
 
     if (passwordCheck) {
-      // console.log("Authentication successful");
+      console.log("Authentication successful");
+      const token=await userInDB.getAuthenticateToken();
+      console.log(token);
       return res.status(200).json({ message: "Login successful" });
     } else {
       console.log("Authentication failed");
       return res.status(401).json({ error: "Incorrect email or password" });
     }
   } catch (error) {
-
     console.error("Error during login:", error);
     return res.status(500).json({ error: "Login failed" });
   }
 });
-
 
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 8000;
