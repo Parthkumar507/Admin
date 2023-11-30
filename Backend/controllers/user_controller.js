@@ -21,7 +21,7 @@ const login = async (req, res, next) => {
         // console.log(token);
 
         const tokenNew=jwt.sign({_id:userInDB._id},process.env.secretOrPrivateKey,{
-          expiresIn:"1000s",
+          expiresIn:"7d",
         })
         console.log("Generated Token");
 
@@ -36,7 +36,7 @@ const login = async (req, res, next) => {
         });
 
   
-        return res.status(200).json({ message: "Login successful" });
+        return res.status(200).json({ user:tokenNew });
       } 
       else {
         console.log("Authentication failed");
