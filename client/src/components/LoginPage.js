@@ -25,6 +25,9 @@ const Loginpage = () => {
 
       // console.log(success)
       if (status === 200) {
+        // let data1=await response.data();
+        // console.log(response.data.user)
+        localStorage.setItem("token", response.data.user);
         navigate("/");
       } else {
         console.log(message);
