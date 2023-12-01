@@ -7,7 +7,9 @@ const connectDB = require("./model/permission.js");
 const User = require("./model/user.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cookieParser=require('cookie-parser')
 const user_routes=require('./router/user_routes.js')
+
 
 /* CONFIGURATION */
 dotenv.config();
@@ -19,6 +21,7 @@ app.use(cors({
   origin: 'http://localhost:3000',  // Replace with your frontend's URL
   credentials: true,
 }));
+app.use(cookieParser())
 
 //Middleware for parsing Json
 app.use(express.json());
