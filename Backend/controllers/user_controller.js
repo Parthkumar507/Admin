@@ -28,8 +28,7 @@ const login = async (req, res, next) => {
     );
     console.log("Generated Token\n", tokenNew);
 
-    // res.clearCookie(String(userInDB._id), { path: "/" });
-
+    
     res.cookie(String(userInDB._id), tokenNew, {
       domain: "localhost",
       path: "/",
