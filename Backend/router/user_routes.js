@@ -13,7 +13,7 @@ console.log('router loaded');
 router.post('/login',login);
 router.post('/register',register);
 
-router.get('/home',verifyToken,getUser)
+router.get('/welcome',verifyToken,getUser)
 
 
 module.exports=router;
