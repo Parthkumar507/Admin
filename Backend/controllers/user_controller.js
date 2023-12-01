@@ -28,6 +28,9 @@ const login = async (req, res, next) => {
     );
     console.log("Generated Token\n", tokenNew);
 
+    if(req.cookies[`${userInDB}`]){
+      req.cookies[`${userInDB}`]=""
+    }
     
     res.cookie(String(userInDB._id), tokenNew, {
       domain: "localhost",
@@ -48,8 +51,8 @@ const login = async (req, res, next) => {
 
 const verifyToken = async (req, res, next) => {
   try {
-
     const cookies=req.headers.cookie.split(";")[0];
+    // const cookies=req.headers.cookie;
     const token=cookies.split("=")[1];
     // console.log('``````````````````')
     // console.log(token)    
