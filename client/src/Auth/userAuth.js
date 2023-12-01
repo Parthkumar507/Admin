@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const useAuth = () => {
   const [authenticated, setAuthenticated] = useState(false);
-//   const history = useHistory();
+  const history = useNavigate();
 
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const resp = await fetch('/check-auth', {
+        const resp = await fetch('http://localhost:8000/check-auth', {
           method: 'GET',
           headers: {
             Accept: 'application/json',
@@ -21,12 +23,12 @@ const useAuth = () => {
           setAuthenticated(true);
         } else {
           setAuthenticated(false);
-        //   history.push('/login'); // Redirect to the login page if not authenticated
+          Navigate('/login'); // Redirect to the login page if not authenticated
         }
       } catch (err) {
         console.error('Error checking authentication:', err);
         setAuthenticated(false);
-        // history.push('/login'); // Redirect to the login page in case of an error
+        Navigate('/login'); // Redirect to the login page in case of an error
       }
     };
 
