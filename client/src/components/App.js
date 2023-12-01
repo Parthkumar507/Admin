@@ -1,22 +1,38 @@
-import React from 'react'
-import { BrowserRouter ,Routes,Route} from 'react-router-dom'
-import LoginPage from './LoginPage'
-import HomePage from './HomePage'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./LoginPage";
+import WelcomePage from "./WelcomePage";
+import Header from "../components/Header";
 
 // import RegisterPage from './RegisterPage'
 
 const App = () => {
   return (
-    <div>
-      <BrowserRouter>
+    <React.Fragment>
+      <header>
+        <Header />
+      </header>
+      <main>
         <Routes>
-        <Route path="/" element={<HomePage/>}/>
-          <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/welcome" element={<WelcomePage/>} />
 
         </Routes>
-      </BrowserRouter>
-    </div>
-  )
-}
+      </main>
+    </React.Fragment>
+  );
+};
 
-export default App
+export default App;
+
+
+  /* <div>
+  { <BrowserRouter>
+    <Routes>
+    <Route path="/" element={<HomePage/>}/>
+      <Route path="/login" element={<LoginPage/>}/>
+
+    </Routes>
+  </BrowserRouter> }
+</div> */
+
