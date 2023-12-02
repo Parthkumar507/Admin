@@ -7,8 +7,8 @@ const Header = () => {
   const [value, setValue] = useState();
 
   return (
-    <div>
-      <AppBar position="sticky">
+    <div style={{display:"div",position:"absolute" ,top:"0"}} >
+      <AppBar   >
         <Toolbar>
           <Typography variant="h3">JobPortal</Typography>
           <Box sx={{ marginLeft: "auto" }}>

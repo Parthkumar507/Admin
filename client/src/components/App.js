@@ -2,6 +2,8 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import WelcomePage from "./WelcomePage";
+// import HomePage from "./HomePage";
+
 import Header from "../components/Header";
 
 // import RegisterPage from './RegisterPage'
@@ -16,7 +18,6 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/welcome" element={<WelcomePage/>} />
-
         </Routes>
       </main>
     </React.Fragment>

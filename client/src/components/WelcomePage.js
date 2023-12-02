@@ -1,13 +1,14 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 axios.defaults.withCredentials = true;
+import Sidebar from "../components/Sidebar"; // Import your Sidebar component
 
 const WelcomePage = () => {
   const [user, setUser] = useState();
 
   const sendRequest = async () => {
     try {
-      const resp = await axios.get('http://localhost:8000/welcome', {
+      const resp = await axios.get("http://localhost:8000/welcome", {
         withCredentials: true,
       });
 
@@ -16,7 +17,7 @@ const WelcomePage = () => {
       console.log(error);
 
       // Assuming your server sends a specific status code for unauthorized access
-      if (error.response ) {
+      if (error.response) {
         // Redirect to login page
         window.location.href = "http://localhost:3000/login";
       }
@@ -36,7 +37,8 @@ const WelcomePage = () => {
 
   return (
     <div>
-      Welcome {user && <h1>{user.name}</h1>}
+      <Sidebar /> {/* Include the Sidebar component here */}
+      <div>Welcome {user && <h1>{user.name}</h1>}</div>
     </div>
   );
 };
