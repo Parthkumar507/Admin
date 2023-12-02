@@ -5,11 +5,13 @@ const {
    login,
    register,
    verifyToken,
-   getUser
+   getUser,
+  //  authMiddleware
   } = require("../controllers/user_controller");
 
 console.log('router loaded');
 
+// router.post('/login',authMiddleware,login);
 router.post('/login',login);
 router.post('/register',register);
 
