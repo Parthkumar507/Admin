@@ -8,28 +8,45 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState(""); // New state to store error message
+
   const handleChange = (e) => {
     setInputs((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    setErrorMessage(""); // Clear error message when user changes input
   };
   const sendRequest = async () => {
-    const res = await axios
+    try{
+      const res = await axios
       .post("http://localhost:8000/login", {
         email: inputs.email,
         password: inputs.password,
       })
-      .catch((err) => console.log(err));
-    // console.log("`````````res`````````" , res)
+
     const data = await res.data;
-    // console.log("`````````data`````````" , data)
     return data;
+    }catch(error){
+      setErrorMessage("Incorrect email or password");
+      setInputs((prev) => ({
+        ...prev,
+        password: "",
+      }));
+      console.log("Login error:", error);
+
+      
+    }
+    
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     // send http request
-    sendRequest().then(() => history("/welcome"));
+    sendRequest().then((data) => {
+      if (data && data.tokenNew) {
+        history("/welcome");
+      }
+    });
   };
   return (
     <div>
@@ -61,6 +78,8 @@ const LoginPage = () => {
             variant="outlined"
             placeholder="Password"
             margin="normal"
+            error={errorMessage !== ""}
+            helperText={errorMessage}
           />
           <Button variant="contained" type="submit">
             Login
@@ -72,50 +91,6 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useState  } from "react";
 // import {  useNavigate } from "react-router-dom";
@@ -129,7 +104,6 @@ export default LoginPage;
 //     password: "",
 //   });
 
-
 //   const handleloginSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
@@ -139,7 +113,7 @@ export default LoginPage;
 //           withCredentials: true,
 //         }
 //       );
-        
+
 //       const { message } = response.data;
 //       const { status } = response;
 
