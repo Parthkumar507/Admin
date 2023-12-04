@@ -117,6 +117,7 @@ const register = async (req, res, next) => {
 
     res.status(201).json({ message: "Registration Successful" });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Registration failed" });
   }
 };
