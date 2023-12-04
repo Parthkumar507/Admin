@@ -21,7 +21,7 @@ const UserSchema= mongoose.Schema({
         type:String,
         require:true,
     },
-    permission: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }],
+    // permission: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }],
 });
 
 UserSchema.pre('save', function (next) {
