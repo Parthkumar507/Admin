@@ -54,6 +54,11 @@ const login = async (req, res, next) => {
 
 const verifyToken = async (req, res, next) => {
   try {
+    // console.log("req.headers.cookie ", req.headers.cookie)
+    if(!req.headers.cookie){
+      // console.log("ekwndjmnc ")
+      return res.status(404).json({ message: "No token found" });
+    }
     const cookies=req.headers.cookie.split(";")[0];
     // const cookies=req.headers.cookie;
     // console.log('```````cookies```````````')
