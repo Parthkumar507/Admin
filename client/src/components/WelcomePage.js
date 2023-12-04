@@ -37,7 +37,7 @@ const WelcomePage = () => {
 
   return (
     <div>
-      <Sidebar /> {/* Include the Sidebar component here */}
+      <Sidebar user={user} /> {/* Include the Sidebar component here */}
       <div>Welcome {user && <h1>{user.name}</h1>}</div>
     </div>
   );
