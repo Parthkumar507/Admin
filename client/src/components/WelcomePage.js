@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-axios.defaults.withCredentials = true;
 import Sidebar from "../components/Sidebar"; // Import your Sidebar component
+axios.defaults.withCredentials = true;
 
 const WelcomePage = () => {
   const [user, setUser] = useState();
