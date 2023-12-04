@@ -2,13 +2,33 @@
 import React, { useEffect, useState } from "react";
 import "../style/sidebar.css";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
-const Sidebar = ({user}) => {
+const Sidebar = ({ user }) => {
   const dropdowns = [
-    { id: 1, label: "Job", items: ["Post", "Update", "Delete"], permission: "job" },
-    { id: 2, label: "Resume", items: ["Post", "Update", "Delete"], permission: "resume" },
-    { id: 3, label: "Settings", items: ["Team/Users", "Payment Settings", "Roles and Permission", "Email Setting"], permission: "settings" },
+    {
+      id: 1,
+      label: "Job",
+      items: ["Post", "Update", "Delete"],
+      permission: "Job",
+    },
+    {
+      id: 2,
+      label: "Resume",
+      items: ["Post", "Update", "Delete"],
+      permission: "Resume",
+    },
+    {
+      id: 3,
+      label: "Settings",
+      items: [
+        "Team or Users",
+        "Payment Settings",
+        "Roles and Permission",
+        "Email Setting",
+      ],
+      permission: "Settings",
+    },
     // Add more dropdowns as needed
   ];
 
@@ -18,10 +38,12 @@ const Sidebar = ({user}) => {
   useEffect(() => {
     const fetchUserPermissions = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/fetchpermission/${user._id}`);
+        const response = await axios.get(
+          `http://localhost:8000/api/fetchpermission/${user._id}`
+        );
         setUserPermissions(response.data.permissions);
       } catch (error) {
-        console.error('Error fetching user permissions:', error);
+        console.error("Error fetching user permissions:", error);
       }
     };
 
@@ -36,7 +58,6 @@ const Sidebar = ({user}) => {
     // console.log("userPermissions.includes(permission)",userPermissions.includes(permission));
     return userPermissions.includes(permission);
   };
-
 
   const toggleDropdown = (dropdownId) => {
     setOpenDropdown(openDropdown === dropdownId ? null : dropdownId);
@@ -54,28 +75,37 @@ const Sidebar = ({user}) => {
       <>
         <h2>Welcome {user && <h1>{user.name}</h1>}</h2>
         <ul>
-          {dropdowns.map((dropdown) => (
-            hasPermission(dropdown.permission) && (
-            <li key={dropdown.id}>
-              <button onClick={() => toggleDropdown(dropdown.id)}>
-                {dropdown.label} {openDropdown === dropdown.id ? "▲" : "▼"}
-              </button>
-              {openDropdown === dropdown.id && (
-                <ul className="dropdown-content">
-                  {dropdown.items.map((item, index) => (
-                    
-                      <li
-                      key={index}
-                      onClick={() => handleItemClick(dropdown.id, item)}
-                    >
-                    {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            )
-          ))}
+          {dropdowns.map(
+            (dropdown) =>
+              hasPermission(dropdown.permission) && (
+                <li key={dropdown.id}>
+                  <button onClick={() => toggleDropdown(dropdown.id)}>
+                    {dropdown.label} {openDropdown === dropdown.id ? "▲" : "▼"}
+                  </button>
+                  {openDropdown === dropdown.id && (
+                    <ul className="dropdown-content">
+
+                      {dropdown.items.map((item, index) => (
+                
+                        <li
+                          key={index}
+                          onClick={() => handleItemClick(dropdown.id, item)}
+                        >
+                        {/* <a href={`${dropdown.label}/${item.replace(/\s+/g, '')} ?userId=${user._id}`}> */}
+                        <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}`}>
+
+
+                        {/* <a href={dropdown.label + '/'+item}> */}
+                          {item}
+                        </a>
+                          
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              )
+          )}
           <li>
             <Link to="/logout">Logout</Link>
           </li>
