@@ -14,7 +14,8 @@ const {
 
 const {
     addPermission,
-    fetchPermission
+    fetchPermission,
+    getRoles
 }=require('../controllers/api_controller')
 
 console.log('router loaded');
@@ -30,6 +31,10 @@ router.post('/api/addpermission', verifyToken,addPermission);
 
 // ROUTE 2: Add a new Note using: GET "/api/permission/fetchpermission". Login required
 router.get('/api/fetchpermission/:userId',verifyToken, fetchPermission);
+
+// ROUTE 3: Add a new Note using: GET "/api/getRole". Login required
+router.get('/api/getRole',verifyToken,getRoles );
+
 
 
 module.exports=router
