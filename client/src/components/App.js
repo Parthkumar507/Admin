@@ -19,7 +19,9 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/welcome" element={<WelcomePage/>} />
-          <Route path="Settings/RolesandPermission" element={<RolesAndPermission/>}/>
+          <Route path="Settings/RolesandPermission/:userId" element={<RolesAndPermission/>}/>
+          <Route path="Settings/RolesandPermission/" element={<RolesAndPermission/>}/>
+
         </Routes>
       </main>
     </React.Fragment>
@@ -27,15 +29,4 @@ const App = () => {
 };
 
 export default App;
-
-
-  /* <div>
-  { <BrowserRouter>
-    <Routes>
-    <Route path="/" element={<HomePage/>}/>
-      <Route path="/login" element={<LoginPage/>}/>
-
-    </Routes>
-  </BrowserRouter> }
-</div> */
 
