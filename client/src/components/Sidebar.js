@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Sidebar = ({ user }) => {
+  
+
   const dropdowns = [
     {
       id: 1,
@@ -68,12 +70,14 @@ const Sidebar = ({ user }) => {
     console.log(`Selected from ${dropdownId}: ${item}`);
     // Close the dropdown after an item is clicked
     setOpenDropdown(null);
+
   };
 
   return (
     <div className="sidebar">
       <>
         <h2>Welcome {user && <h1>{user.name}</h1>}</h2>
+        {/* <h2>Welcome </h2> */}
         <ul>
           {dropdowns.map(
             (dropdown) =>
@@ -91,10 +95,8 @@ const Sidebar = ({ user }) => {
                           key={index}
                           onClick={() => handleItemClick(dropdown.id, item)}
                         >
-                        {/* <a href={`${dropdown.label}/${item.replace(/\s+/g, '')} ?userId=${user._id}`}> */}
-                        <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}`}>
-
-
+                        <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}?userId=${user._id}`}>
+                        {/* <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}`}> */}
                         {/* <a href={dropdown.label + '/'+item}> */}
                           {item}
                         </a>
