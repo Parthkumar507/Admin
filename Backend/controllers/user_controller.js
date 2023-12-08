@@ -3,10 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const login = async (req, res, next) => {
-    try {
-
-          
-
+  try {
     const { email, password } = req.body;
     const userInDB = await User.findOne({ email });
 
@@ -21,10 +18,10 @@ const login = async (req, res, next) => {
     }
 
     console.log("Authentication successful");
-    res.clearCookie('token')
+    res.clearCookie("token");
 
     const tokenNew = jwt.sign(
-      { _id: userInDB._id},
+      { _id: userInDB._id },
       process.env.secretOrPrivateKey,
       {
         expiresIn: "1h",
@@ -33,8 +30,6 @@ const login = async (req, res, next) => {
     console.log("Generated Token\n");
     // console.log("Generated Token\n", tokenNew);
 
-
-   
     res.cookie("token", tokenNew, {
       domain: "localhost",
       path: "/",
@@ -51,21 +46,20 @@ const login = async (req, res, next) => {
   }
 };
 
-
 const verifyToken = async (req, res, next) => {
   try {
     // console.log("req.headers.cookie ", req.headers.cookie)
-    if(!req.headers.cookie){
+    if (!req.headers.cookie) {
       // console.log("ekwndjmnc ")
       return res.status(404).json({ message: "No token found" });
     }
-    const cookies=req.headers.cookie.split(";")[0];
+    const cookies = req.headers.cookie.split(";")[0];
     // const cookies=req.headers.cookie;
     // console.log('```````cookies```````````')
     // console.log(cookies)
-    const token=cookies.split("=")[1];
+    const token = cookies.split("=")[1];
     // console.log('`````````token`````````')
-    // console.log(token)    
+    // console.log(token)
     if (!token) {
       res.status(404).json({ message: "No token found" });
     }
@@ -75,15 +69,15 @@ const verifyToken = async (req, res, next) => {
         if (err.name === "TokenExpiredError") {
           return res.status(401).json({ message: "Token expired" });
         }
-        console.log(err)
+        console.log(err);
         return res.status(400).json({ message: "Invalid Token" });
       }
       console.log(user._id);
       req.id = user._id;
     });
   } catch (err) {
-    res.status(401).send("Unauthorized ");
     console.log(err);
+    throw { status: 401, message: "Unauthorized" };
   }
   next();
 };
@@ -94,18 +88,16 @@ const getUser = async (req, res, next) => {
 
   try {
     user = await User.findById(userId, "-password");
+
+    if (!user) {
+      console.log("User not found");
+      return res.status(404).json({ message: "User Not Found" });
+    }
+    return res.status(200).json({ user });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-
-  if (!user) {
-    console.log("User not found");
-    return res.status(404).json({ message: "User Not Found" });
-  }
-
-  // Only send the response once
-  return res.status(200).json({ user });
 };
 
 //Registration
@@ -117,27 +109,10 @@ const register = async (req, res, next) => {
 
     res.status(201).json({ message: "Registration Successful" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: "Registration failed" });
   }
 };
-
-
-// const authMiddleware = (req, res, next) => {
-//   // Check if a token is present in the cookies, headers, or however you handle tokens
-//   const token = req.cookies.token || req.headers.authorization;
-//   console.log(' token ',token)
-
-//   // If the token is present, redirect or send an error response
-//   if (token) {
-//     return res.redirect('http://localhost:3000/welcome');
-//     // or
-//     // return res.status(403).json({ message: 'Forbidden' });
-//   }
-
-//   // If no token is present, continue to the next middleware/route
-//   next();
-// };
 
 exports.login = login;
 exports.register = register;
