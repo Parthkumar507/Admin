@@ -3,6 +3,15 @@ const Permission = require('../model/Permission');
 const User=require('../model/user')
 const { body, validationResult } = require('express-validator');
 
+const getRoles=async(req,res)=>{
+  try {
+    const roles = await Permission.find().select("-_id");
+    res.json(roles);
+  } catch (error) {
+    console.error('Error fetching roles:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
 
 
 const addPermission = async (req, res) => {
@@ -20,9 +29,15 @@ const addPermission = async (req, res) => {
   
       // If the role already exists, update its permissions
       if (existingPermission) {
-        const uniquePermissions = [...new Set([...existingPermission.permission, ...permission])];
-        existingPermission.permission = uniquePermissions;
+        // const uniquePermissions = [...new Set([...existingPermission.permission, ...permission])];
+        // existingPermission.permission = uniquePermissions;
+
+        // await existingPermission.save();
+        
+        existingPermission.permission = permission;
         await existingPermission.save();
+
+
       } else {
         // If the role doesn't exist, create a new permission document
         existingPermission = new Permission({
@@ -47,7 +62,11 @@ const addPermission = async (req, res) => {
 
 const fetchPermission = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.id;
+    // const token=req.cookies.token;
+    // console.log("UserId ", userId)
+
+   
       // Fetch user role from the User model
       const user = await User.findById(userId);
       if (!user) {
@@ -70,4 +89,5 @@ const fetchPermission = async (req, res) => {
 module.exports = {
     addPermission,
   fetchPermission,
+  getRoles
 };
