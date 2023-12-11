@@ -47,6 +47,7 @@ const login = async (req, res, next) => {
 };
 
 const verifyToken = async (req, res, next) => {
+  // console.log('verify Token')
   try {
     // console.log("req.headers.cookie ", req.headers.cookie)
     if (!req.headers.cookie) {
@@ -54,14 +55,10 @@ const verifyToken = async (req, res, next) => {
       return res.status(404).json({ message: "No token found" });
     }
     const cookies = req.headers.cookie.split(";")[0];
-    // const cookies=req.headers.cookie;
-    // console.log('```````cookies```````````')
-    // console.log(cookies)
     const token = cookies.split("=")[1];
-    // console.log('`````````token`````````')
-    // console.log(token)
+
     if (!token) {
-      res.status(404).json({ message: "No token found" });
+      res.status(401).json({ message: "No token found" });
     }
 
     jwt.verify(String(token), process.env.secretOrPrivateKey, (err, user) => {
@@ -74,12 +71,13 @@ const verifyToken = async (req, res, next) => {
       }
       console.log(user._id);
       req.id = user._id;
+      next();
     });
   } catch (err) {
     console.log(err);
-    throw { status: 401, message: "Unauthorized" };
+    return res.status(401).json({ message: "Unauthorized" });
   }
-  next();
+ 
 };
 
 const getUser = async (req, res, next) => {
@@ -104,6 +102,15 @@ const getUser = async (req, res, next) => {
 const register = async (req, res, next) => {
   try {
     const { name, password, email, role } = req.body;
+
+        // Check if email already exists
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+          // If email exists, send a 409 Conflict response
+          return res.status(409).json({ error: "Email already exists" });
+        }  
+    // Create a new user if the email doesn't exist
     const user = new User({ name, password, email, role });
     await user.save();
 
@@ -114,8 +121,16 @@ const register = async (req, res, next) => {
   }
 };
 
+const userLogout=async(req,res)=>{
+
+  res.clearCookie('token')
+  res.json({ message: 'Logout successful' });
+
+}
+
 exports.login = login;
 exports.register = register;
 exports.verifyToken = verifyToken;
 exports.getUser = getUser;
+exports.userLogout=userLogout;
 // exports.authMiddleware=authMiddleware;
