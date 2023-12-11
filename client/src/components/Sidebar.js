@@ -10,18 +10,48 @@ const Sidebar = ({ user }) => {
   const dropdowns = [
     {
       id: 1,
-      label: "Job",
+      label: "Dashboard",
       items: ["Post", "Update", "Delete"],
       permission: "Job",
     },
     {
       id: 2,
+      label: "Students",
+      items: ["Add new Student", "Student Database"],
+      permission: "Resume",
+    },
+    // {
+    //   id: 3,
+    //   label: "Students",
+    //   items: ["Post", "Update", "Delete"],
+    //   permission: "Resume",
+    // },
+    {
+      id: 4,
+      label: "Report",
+      items: ["Post", "Update", "Delete"],
+      permission: "Report",
+    },
+    {
+      id: 5,
+      label: "Companies",
+      items: ["Add New Employee","All Employee Data"],
+      permission: "Companies",
+    },
+    {
+      id: 6,
+      label: "Jobs",
+      items: ["Post", "Update", "Delete"],
+      permission: "Jobs",
+    },
+    {
+      id: 7,
       label: "Resume",
       items: ["Post", "Update", "Delete"],
       permission: "Resume",
     },
     {
-      id: 3,
+      id: 8,
       label: "Settings",
       items: [
         "Team or Users",
@@ -41,9 +71,11 @@ const Sidebar = ({ user }) => {
     const fetchUserPermissions = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/fetchpermission/${user._id}`
+          `http://localhost:8000/api/fetchpermission/`
         );
-        setUserPermissions(response.data.permissions);
+        const UserPermissionValue=response.data.permissions;
+        setUserPermissions(UserPermissionValue);
+        // setUserPermissions(response.data.permissions);
       } catch (error) {
         console.error("Error fetching user permissions:", error);
       }
@@ -95,7 +127,7 @@ const Sidebar = ({ user }) => {
                           key={index}
                           onClick={() => handleItemClick(dropdown.id, item)}
                         >
-                        <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}?userId=${user._id}`}>
+                        <a href={`/${dropdown.label}/${item.replace(/\s+/g, '')}`}>
                         {/* <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}`}> */}
                         {/* <a href={dropdown.label + '/'+item}> */}
                           {item}
