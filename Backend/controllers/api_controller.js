@@ -6,7 +6,11 @@ const { body, validationResult } = require('express-validator');
 const getRoles=async(req,res)=>{
   try {
     const roles = await Permission.find().select("-_id");
-    res.json(roles);
+    // res.json(roles);
+
+    const filteredRoles = roles.filter(role => role.role !== 'admin');
+    res.json(filteredRoles);
+
   } catch (error) {
     console.error('Error fetching roles:', error);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -57,7 +61,6 @@ const addPermission = async (req, res) => {
     }
   };
   
-  module.exports = addPermission;
   
 
 const fetchPermission = async (req, res) => {
@@ -85,9 +88,8 @@ const fetchPermission = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
 module.exports = {
     addPermission,
   fetchPermission,
-  getRoles
+  getRoles,
 };
