@@ -15,6 +15,7 @@ import axios, { AxiosError } from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 // import ProtectedPage from "../../Auth/ProtectedPage";
 import Sidebar from "../Sidebar";
+const donotRenderRole="He has all the permission , DO not delete it Donot delete" 
 
 const RolesAndPermission = () => {
   // State to store user information
@@ -25,8 +26,6 @@ const RolesAndPermission = () => {
     severity: "success",
   });
   const [roles, setRoles] = useState([]);
-  // const [oselectedRole, setSelectedRole] = useState("");
-  // const [existingPermissions, setExistingPermissions] = useState([]);
   const [currentRolePermissions, setCurrentRolePermissions] = useState([]);
   const [currentRole, setCurrentRole] = useState("");
 
@@ -110,22 +109,27 @@ const RolesAndPermission = () => {
     setShowOtherInput(selectedRole === "Other");
   };
   // Add this line to update otherPermission state
-  const handleOtherPermissionChange = (e) => {
-
+  const handleOtherPermissionChange = async (e) => {
     const otherPermissionValue = e.target.value;
+    // console.log(e.target.value);
+    // console.log("otherPermissionValue", otherPermissionValue);
 
+    if (otherPermissionValue.toLowerCase() !== 'admin') {
+
+
+    // Assuming setOtherPermission returns a Promise
     setOtherPermission(otherPermissionValue);
-    console.log("Otherpermision", otherPermission);
-    // const otherPermission = e.target.value;
-    // Update the role state when typing in the "Other" input
-    // setCurrentRole(e.target.value);
+
+    // console.log("Otherpermission", otherPermission);
+
     // Update the state with the input value
     setInputs((prev) => ({
-      ...prev,
-      role: otherPermission,
+        ...prev,
+        role: otherPermissionValue,
     }));
+  }
+};
 
-  };
 
   const handlePermissionChange = (e) => {
     const selectedPermissions = Array.isArray(e.target.value)
@@ -142,15 +146,15 @@ const RolesAndPermission = () => {
     // Check and update the Set based on selected permissions
     selectedPermissions.forEach((permission) => {
       if (CurrentPermissionsSet.has(permission)) {
-        console.log("Add  ", permission);
+        // console.log("Add  ", permission);
         Ans.add(permission);
       } else {
         // Add permission if current doesn't have it
-        console.log("Delete  ", permission);
+        // console.log("Delete  ", permission);
         Ans.add(permission);
       }
     });
-    console.log("Ans Set final", Ans);
+    // console.log("Ans Set final", Ans);
 
     // Convert the Set back to an array
     const updatedAnsArray = Array.from(Ans);
@@ -216,7 +220,7 @@ const RolesAndPermission = () => {
     // <ProtectedPage requiredPermission="settings" userId={userId}>
 
     <div>
-      <Sidebar user={user} />
+      {/* <Sidebar user={user} /> */}
       {/* <Sidebar  />  */}
       <form style={{ marginTop: "85px" }} onSubmit={handleSubmit}>
         <Box
@@ -242,14 +246,16 @@ const RolesAndPermission = () => {
               margin="normal"
             >
               {roles.map((role) => (
+                role.role !== donotRenderRole && (
                 <MenuItem key={role._id} value={role.role}>
                   {role.role}
                 </MenuItem>
+                )
               ))}
               <MenuItem value="Other">Other</MenuItem>
             </Select>
           </FormControl>
-          {showOtherInput && (
+          {showOtherInput && otherPermission.toLowerCase() !== 'admin' &&   (
             <TextField
               type="text"
               label="Other Role You wish to add"
@@ -272,7 +278,6 @@ const RolesAndPermission = () => {
               value={inputs.permissions}
               onChange={handlePermissionChange}
               variant="outlined"
-              isClearable
             >
               {currentRolePermissions.map((permission) => (
                 <MenuItem
