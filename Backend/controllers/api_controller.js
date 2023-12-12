@@ -8,8 +8,20 @@ const getRoles=async(req,res)=>{
     const roles = await Permission.find().select("-_id");
     // res.json(roles);
 
-    const filteredRoles = roles.filter(role => role.role !== 'admin');
-    res.json(filteredRoles);
+    // const filteredRoles = roles.filter(role => role.role !== 'admin');
+    // res.json(filteredRoles);
+
+    // Assuming there is an object with role "admin"
+    const adminRole = roles.find(role => role.role === "admin");
+
+    if (adminRole) {
+      // Exclude "Settings" permission for the "admin" role
+      adminRole.permission = adminRole.permission.filter(permission => permission !== "Settings");
+    }
+
+    res.json(roles);
+
+
 
   } catch (error) {
     console.error('Error fetching roles:', error);
