@@ -1,26 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { AppBar, Box, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-
-const Header = () => {
+const Header = ({ user }) => {
   const [value, setValue] = useState();
 
+  const dynamicLogin = () => {
+    if (user !== null) {
+      return <Tab label={`Hello, ${user.name}`} />;
+    } else {
+      return <Tab component={Link} to="/login" label="Login" />;
+    }
+    
+  };
+
   return (
-    <div>
-      <AppBar position="sticky">
+    <div style={{ display: "div", position: "absolute", top: "0" }}>
+      <AppBar>
         <Toolbar>
           <Typography variant="h3">JobPortal</Typography>
           <Box sx={{ marginLeft: "auto" }}>
             <Tabs
-                indicatorColor="secondary"
-                onChange={(e, val) => setValue(val)}
+              indicatorColor="secondary"
+              onChange={(e, val) => setValue(val)}
               value={value}
               textColor="inherit"
             >
-              <Tab to="/login" LinkComponent={Link} label="login" />
-              <Tab to="/welcome" LinkComponent={Link} label="Welcome Page" />
-              {/* <Tab to="/logout" LinkComponent={Link} label="Logout" /> */}
+              {dynamicLogin()}
+              <Tab component={Link} to="/welcome" label="Welcome Page" />
             </Tabs>
           </Box>
         </Toolbar>
@@ -29,4 +36,9 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header, (prevProps, nextProps) => {
+  // Custom comparison function to prevent re-rendering when user prop changes
+  return (
+    prevProps.user && nextProps.user && prevProps.user.name === nextProps.user.name
+  );
+});
