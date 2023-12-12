@@ -246,7 +246,7 @@ const RolesAndPermission = () => {
               margin="normal"
             >
               {roles.map((role) => (
-                role.role !== donotRenderRole && (
+                role.role !== "admin" && (
                 <MenuItem key={role._id} value={role.role}>
                   {role.role}
                 </MenuItem>
@@ -280,12 +280,14 @@ const RolesAndPermission = () => {
               variant="outlined"
             >
               {currentRolePermissions.map((permission) => (
+                /*{ currentRolePermissions!="Settings" &&( }*/
                 <MenuItem
                   key={`selected-${currentRole}-${permission}`}
                   value={permission}
                 >
                   {permission}
                 </MenuItem>
+              /* ) */
               ))}
               {roles
                 .flatMap((role) => role.permission)
@@ -296,6 +298,7 @@ const RolesAndPermission = () => {
                 )
                 .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
                 .map((permission) => (
+
                   <MenuItem
                     key={`unselected-${currentRole}-${permission}`}
                     value={permission}

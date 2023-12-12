@@ -17,7 +17,7 @@ import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import validator from "email-validator"; // Import the email-validator library
 import zxcvbn from "zxcvbn"; // Import the zxcvbn library
-const donotRenderRole="He has all the permission , DO not delete it Donot delete" 
+// const donotRenderRole="He has all the permission , DO not delete it Donot delete" 
 
 
 
@@ -210,7 +210,7 @@ const NewUser = () => {
               margin="normal"
             >
               {roles.map((role) => (
-                role.role !== donotRenderRole && (
+                role.role !== "admin" && (
                 <MenuItem key={role._id} value={role.role}>
                   {role.role}
                 </MenuItem>
