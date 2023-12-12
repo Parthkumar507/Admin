@@ -13,4 +13,41 @@ Currently,This portal currently supports the following features:
   - **View** View grid
 - **Logout:** Log out from the admin portal.
 - **Specific View**- User will only see sidebar , which he has permission for it.
+
+
+
+## Backend
+
+### Setup
+
+1. Navigate to the `backend` folder:
+   ```bash
+   cd backend
+
+   npm install
+   npm start
+
+The backend server will run on http://localhost:8000 by default.
+
+
+## Frontend
+
+### Setup
+1.Navigate to the frontend folder:
+cd frontend
+
+2.Install dependencies:
+npm install
+
+3.Start the React development server:
+npm start
+
+
+The frontend development server will run on http://localhost:3000 by default.
+
+
+
+
+
+
   
