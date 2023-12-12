@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { AppBar, Box, Button, Tab, Tabs, TextField, Toolbar, Typography } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +50,20 @@ const LoginPage = () => {
   };
   return (
     <div>
+    <header>
+<div style={{ display: "div", position: "absolute", top: "0" }}>
+    <AppBar>
+      <Toolbar>
+        <Typography variant="h3">JobPortal</Typography>
+        <Box sx={{ marginLeft: "auto" }}>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  </div>
+</header>
+  
+
+
       <form style={{marginTop:"85px"}} onSubmit={handleSubmit}>
         <Box
           marginLeft="auto"
