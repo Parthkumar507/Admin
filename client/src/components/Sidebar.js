@@ -108,8 +108,7 @@ const Sidebar = ({ user }) => {
   return (
     <div className="sidebar">
       <>
-        <h2>Welcome {user && <h1>{user.name}</h1>}</h2>
-        {/* <h2>Welcome </h2> */}
+        <h2>Welcome {user && <h2>{user.name}</h2>}</h2>
         <ul>
           {dropdowns.map(
             (dropdown) =>
@@ -127,11 +126,13 @@ const Sidebar = ({ user }) => {
                           key={index}
                           onClick={() => handleItemClick(dropdown.id, item)}
                         >
-                        <a href={`/${dropdown.label}/${item.replace(/\s+/g, '')}`}>
+                        <Link to={`/${dropdown.label}/${item.replace(/\s+/g, '')}`}>
+                        {/* <a href={`/${dropdown.label}/${item.replace(/\s+/g, '')}`}> */}
                         {/* <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}`}> */}
                         {/* <a href={dropdown.label + '/'+item}> */}
                           {item}
-                        </a>
+                        {/* </a> */}
+                        </Link>
                           
                         </li>
                       ))}
