@@ -19,6 +19,7 @@ import AddStudent from "../Students/AddStudent";
 import Sidebar from "./Sidebar";
 import AddEmploye from "../Companies/AddEmploye";
 import Logout from "./Logout";
+import StudentList from "../Students/ViewStudents";
 
 const App = () => {
   const { authenticated, user } = UseAuth();
@@ -40,11 +41,12 @@ const App = () => {
 
   return (
     <React.Fragment>
-      <div>
-        <Header user={user} />
-        {location.pathname !== "/login" && <Sidebar user={user} />}
-      </div>
-
+     {authenticated && (
+        <div>
+          <Header user={user} />
+          <Sidebar user={user} />
+        </div>
+      )}
       {/* <Layout> */}
       <main>
         <Routes>
@@ -55,6 +57,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <AddStudent />
+              </RequireAuth>
+            }
+          />
+           <Route
+            path="Students/StudentDatabase"
+            element={
+              <RequireAuth>
+                <StudentList />
               </RequireAuth>
             }
           />
