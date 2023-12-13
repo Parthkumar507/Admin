@@ -1,0 +1,16 @@
+/* .customHeader1{
+
+} */
+
+.MuiDataGrid-columnHeaderTitleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .MuiDataGrid-columnHeaderTitle {
+    /* Optional: Adjust font styles or other styles as needed */
+    text-align: center;
+    font-weight: bold;
+  }
+
