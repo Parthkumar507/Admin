@@ -12,7 +12,7 @@ const Sidebar = ({ user }) => {
       id: 1,
       label: "Dashboard",
       items: ["Post", "Update", "Delete"],
-      permission: "Job",
+      permission: "Dashboard",
     },
     {
       id: 2,
@@ -29,7 +29,7 @@ const Sidebar = ({ user }) => {
     {
       id: 4,
       label: "Report",
-      items: ["Post", "Update", "Delete"],
+      items: ["Showing Report", "Update", "Delete"],
       permission: "Report",
     },
     {
@@ -47,7 +47,7 @@ const Sidebar = ({ user }) => {
     {
       id: 7,
       label: "Resume",
-      items: ["Post", "Update", "Delete"],
+      items: ["View Resume", "Update Resume", "Delete Resume"],
       permission: "Resume",
     },
     {
@@ -108,7 +108,7 @@ const Sidebar = ({ user }) => {
   return (
     <div className="sidebar">
       <>
-        <h2>Welcome {user && <h2>{user.name}</h2>}</h2>
+        <h2>Welcome {user && <p>{user.name}</p>}</h2>
         <ul>
           {dropdowns.map(
             (dropdown) =>

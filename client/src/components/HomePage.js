@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../style/Home_page.css';
-import useAuth from '../Auth/userAuth';
+import useAuth from './Auth/userAuth';
 
 const Sidebar = () => {
   const [userData, setUserData] = useState(null);

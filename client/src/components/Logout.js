@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import UseAuth from "../Auth/UserAuthentication";
+import UseAuth from "./Auth/UserAuthentication";
 import { Box, Button } from "@mui/material";
 
 const Logout = () => {
