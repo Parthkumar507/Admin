@@ -13,13 +13,15 @@ import WelcomePage from "./WelcomePage";
 import Header from "../components/Header";
 import RolesAndPermission from "./Settings/RolesAndPermission";
 import NewUser from "./Settings/NewUser";
-import UseAuth from "../Auth/UserAuthentication";
+import UseAuth from "./Auth/UserAuthentication";
 import Layout from "./Layout";
-import AddStudent from "../Students/AddStudent";
+import AddStudent from "./Students/AddStudent";
 import Sidebar from "./Sidebar";
-import AddEmploye from "../Companies/AddEmploye";
+import AddEmploye from "./Companies/AddEmploye";
 import Logout from "./Logout";
-import StudentList from "../Students/ViewStudents";
+import StudentList from "./Students/ViewStudents";
+import DisplayReport from "./Reports/Display";
+import ViewResume from "./Resume/ViewResume";
 
 const App = () => {
   const { authenticated, user } = UseAuth();
@@ -41,7 +43,7 @@ const App = () => {
 
   return (
     <React.Fragment>
-     {authenticated && (
+      {authenticated && (
         <div>
           <Header user={user} />
           <Sidebar user={user} />
@@ -60,11 +62,19 @@ const App = () => {
               </RequireAuth>
             }
           />
-           <Route
+          <Route
             path="Students/StudentDatabase"
             element={
               <RequireAuth>
                 <StudentList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="Report/ShowingReport"
+            element={
+              <RequireAuth>
+                <DisplayReport />
               </RequireAuth>
             }
           />
@@ -88,6 +98,14 @@ const App = () => {
           />
 
           <Route
+            path="Resume/ViewResume"
+            element={
+              <RequireAuth>
+            <ViewResume/>  
+              </RequireAuth>
+            }
+          />
+          <Route
             path="Companies/AddNewEmployee"
             element={
               <RequireAuth>
@@ -99,7 +117,7 @@ const App = () => {
             path="Logout"
             element={
               <RequireAuth>
-                <Logout/>
+                <Logout />
               </RequireAuth>
             }
           />
