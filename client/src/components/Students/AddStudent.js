@@ -28,7 +28,8 @@ const AddStudent = () => {
     password: "",
     number:"",
     age:"",
-    link:""
+    link:"",
+    gender:""
   });
   // const [showPassword, setShowPassword] = useState(false); // To toggle password visibility
 
@@ -108,9 +109,9 @@ const AddStudent = () => {
           message: "User added successfully",
           severity: "success",
         });
-        setTimeout(() => {
-          history("/welcome");
-        }, 2000);
+        // setTimeout(() => {
+        //   history("/welcome");
+        // }, 2000);
       }
     } catch (error) {
       setNotification({
@@ -202,10 +203,26 @@ const AddStudent = () => {
             name="age"
             required
           />
+           <FormControl variant="outlined" margin="normal" style={{width:"65%"}}>
+            <InputLabel id="gender-label">Gender</InputLabel>
+            <Select
+              labelId="gender-label"
+              id="gender"
+              value={credentials.gender}
+              onChange={onChange}
+              label="Gender"
+              name="gender"
+              required
+            >
+              <MenuItem value="male">Male</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
+            </Select>
+          </FormControl>
          
 
           <Button variant="contained" type="submit">
-            Add User
+            Add Student
           </Button>
         </Box>
       </form>
