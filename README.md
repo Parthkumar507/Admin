@@ -34,7 +34,7 @@ The backend server will run on http://localhost:8000 by default.
 
 ### Setup
 1.Navigate to the frontend folder:
-cd frontend
+cd client
 
 2.Install dependencies:
 npm install
