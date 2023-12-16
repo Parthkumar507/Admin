@@ -22,6 +22,7 @@ import Logout from "./Logout";
 import StudentList from "./Students/ViewStudents";
 import DisplayReport from "./Reports/Display";
 import ViewResume from "./Resume/ViewResume";
+import JobPost from "./Jobs/JobPost";
 
 const App = () => {
   const { authenticated, user } = UseAuth();
@@ -98,10 +99,19 @@ const App = () => {
           />
 
           <Route
+            path="JobPost/Post"
+            element={
+              <RequireAuth>
+                <JobPost />
+              </RequireAuth>
+            }
+          />
+
+          <Route
             path="Resume/ViewResume"
             element={
               <RequireAuth>
-            <ViewResume/>  
+                <ViewResume />
               </RequireAuth>
             }
           />
