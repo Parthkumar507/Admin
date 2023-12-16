@@ -1,17 +1,17 @@
 // Sidebar.js
 import React, { useEffect, useState } from "react";
 import "../style/sidebar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Sidebar = ({ user }) => {
-  
+
 
   const dropdowns = [
     {
       id: 1,
       label: "Dashboard",
-      items: ["Post", "Update", "Delete"],
+      items: ["Stats"],
       permission: "Dashboard",
     },
     {
@@ -40,7 +40,7 @@ const Sidebar = ({ user }) => {
     },
     {
       id: 6,
-      label: "Jobs",
+      label: "Job Post",
       items: ["Post", "Update", "Delete"],
       permission: "Jobs",
     },
@@ -63,9 +63,13 @@ const Sidebar = ({ user }) => {
     },
     // Add more dropdowns as needed
   ];
+  const [selectedDropdown, setSelectedDropdown] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [userPermissions, setUserPermissions] = useState([]);
+  const location = useLocation();
+
 
   useEffect(() => {
     const fetchUserPermissions = async () => {
@@ -73,7 +77,7 @@ const Sidebar = ({ user }) => {
         const response = await axios.get(
           `http://localhost:8000/api/fetchpermission/`
         );
-        const UserPermissionValue=response.data.permissions;
+        const UserPermissionValue = response.data.permissions;
         setUserPermissions(UserPermissionValue);
         // setUserPermissions(response.data.permissions);
       } catch (error) {
@@ -87,22 +91,22 @@ const Sidebar = ({ user }) => {
   }, [user]);
 
   const hasPermission = (permission) => {
-    // console.log("userPermissions : ", userPermissions)
-    // console.log("permission : ", permission)
-    // console.log("userPermissions.includes(permission)",userPermissions.includes(permission));
     return userPermissions.includes(permission);
   };
 
   const toggleDropdown = (dropdownId) => {
     setOpenDropdown(openDropdown === dropdownId ? null : dropdownId);
+    setSelectedDropdown(dropdownId);
   };
 
   const handleItemClick = (dropdownId, item) => {
     // Do something when an item is clicked
-    console.log(`Selected from ${dropdownId}: ${item}`);
-    // Close the dropdown after an item is clicked
-    setOpenDropdown(null);
+    // console.log(`Selected from ${dropdownId}: ${item}`);
+    setSelectedDropdown(dropdownId);
+    setSelectedItem(item);
 
+    // Close the dropdown after an item is clicked
+    // setOpenDropdown(null);
   };
 
   return (
@@ -114,26 +118,35 @@ const Sidebar = ({ user }) => {
             (dropdown) =>
               hasPermission(dropdown.permission) && (
                 <li key={dropdown.id}>
-                  <button onClick={() => toggleDropdown(dropdown.id)}>
+                  <button 
+                    onClick={() => toggleDropdown(dropdown.id)}                  
+                    className={
+                      selectedDropdown === dropdown.id ? "selected-dropdown" : ""
+                    }
+                  >
                     {dropdown.label} {openDropdown === dropdown.id ? "▲" : "▼"}
                   </button>
                   {openDropdown === dropdown.id && (
                     <ul className="dropdown-content">
-
                       {dropdown.items.map((item, index) => (
-                
                         <li
                           key={index}
                           onClick={() => handleItemClick(dropdown.id, item)}
                         >
-                        <Link to={`/${dropdown.label}/${item.replace(/\s+/g, '')}`}>
-                        {/* <a href={`/${dropdown.label}/${item.replace(/\s+/g, '')}`}> */}
-                        {/* <a href={`${dropdown.label}/${item.replace(/\s+/g, '')}`}> */}
-                        {/* <a href={dropdown.label + '/'+item}> */}
-                          {item}
-                        {/* </a> */}
-                        </Link>
-                          
+                          <Link
+                            to={`/${dropdown.label.replace(/\s+/g, "")}/${item.replace(
+                              /\s+/g,
+                              ""
+                            )}`}
+                            className={
+                              selectedDropdown === dropdown.id &&
+                              selectedItem === item
+                                ? "selected"
+                                : ""
+                            }
+                          >
+                            {item}
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -142,7 +155,7 @@ const Sidebar = ({ user }) => {
               )
           )}
           <li>
-            <Link to="/logout">Logout</Link>
+            <Link to="/logout" style={{color:"black"}}>Logout</Link>
           </li>
         </ul>
       </>
