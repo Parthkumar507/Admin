@@ -133,9 +133,9 @@ const NewUser = () => {
           message: "User added successfully",
           severity: "success",
         });
-        setTimeout(() => {
-          history("/welcome");
-        }, 2000);
+        // setTimeout(() => {
+        //   history("/welcome");
+        // }, 2000);
       }
     } catch (error) {
       setNotification({
@@ -171,7 +171,7 @@ const NewUser = () => {
             value={credentials.name}
             onChange={onChange}
             name="name"
-            required
+          
           />
           <TextField
             label="Email"

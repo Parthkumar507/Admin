@@ -199,9 +199,9 @@ const RolesAndPermission = () => {
           message: "Permission added successfully",
           severity: "success",
         });
-        setTimeout(() => {
-          history("/welcome");
-        }, 2000);
+        // setTimeout(() => {
+        //   history("/welcome");
+        // }, 2000);
       } else {
         // Show error message
         setNotification({
